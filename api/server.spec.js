@@ -27,7 +27,7 @@ describe("server.js", () => {
         },
         {
           id: 2,
-          name: "Arya Stark"
+          name: "development"
         },
         {
           id: 3,
@@ -42,4 +42,24 @@ describe("server.js", () => {
         });
     });
   });
+
+  describe("POST /characters", () => {
+    it("should return status code 201", async () => {
+      let character = { name: "Daenerys Targaryen" }
+      let response = await request(server).post("/characters").send(character)
+
+      expect(response.status).toBe(201)
+    });
+
+    it.only("should return id when character is added", async () => {
+      let character = { name: "Brandon Stark" }
+
+      let response = await request(server).post("/characters").send(character)
+
+      expect(response.body.id).not.toEqual(null);
+    })
+  });
+
+
+
 });
