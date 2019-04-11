@@ -3,7 +3,7 @@ const server = require("./server.js");
 
 describe("server.js", () => {
   describe("GET /characters", () => {
-    it("should return status code 200", () => {
+    it.only("should return status code 200", () => {
       return request(server)
         .get("/characters")
         .then(res => {
@@ -45,21 +45,34 @@ describe("server.js", () => {
 
   describe("POST /characters", () => {
     it("should return status code 201", async () => {
-      let character = { name: "Daenerys Targaryen" }
-      let response = await request(server).post("/characters").send(character)
+      let character = { name: "Daenerys Targaryen" };
+      let response = await request(server)
+        .post("/characters")
+        .send(character);
 
-      expect(response.status).toBe(201)
+      expect(response.status).toBe(201);
     });
 
-    it.only("should return id when character is added", async () => {
-      let character = { name: "Brandon Stark" }
+    it("should return id when character is added", async () => {
+      let character = { name: "Brandon Stark" };
 
-      let response = await request(server).post("/characters").send(character)
+      let response = await request(server)
+        .post("/characters")
+        .send(character);
 
       expect(response.body.id).not.toEqual(null);
-    })
+    });
   });
 
+  describe("DELETE /characters", () => {
+    it("should return status code 200", async () => {
+      let response = await request(server).delete("/characters/9");
+      expect(response.status).toEqual(200);
+    });
 
-
+    it("should return a count of 1", async () => {
+      let response = await request(server).delete("/characters/8");
+      expect(response.body).toEqual(1);
+    });
+  });
 });
