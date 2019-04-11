@@ -2,7 +2,7 @@
 
 const localPg = {
   host: 'localhost',
-  database: 'hobbits',
+  database: 'characters',
   user: 'student',
   password: 'hired',
 };
